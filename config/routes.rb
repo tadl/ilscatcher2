@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'search/basic' 
   get 'web/locations'
   get 'web/events'
+  get 'web/news'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

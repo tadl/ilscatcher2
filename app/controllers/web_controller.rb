@@ -8,4 +8,10 @@ class WebController < ApplicationController
 		events = Rails.cache.read('events')
 		render :json =>{:events => events}
 	end
+
+	def news
+		news = Rails.cache.read('news')
+		render :json =>{:news => news}
+	end
+
 end
