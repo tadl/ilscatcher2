@@ -58,6 +58,7 @@ GEM
     multi_json (1.10.1)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
+    newrelic_rpm (3.8.0.218)
     nikkou (0.0.3)
       activesupport
       nokogiri
@@ -123,6 +124,7 @@ DEPENDENCIES
   dalli
   mechanize
   memcachier
+  newrelic_rpm
   nikkou
   rails (= 4.1.0)
   rails-api
