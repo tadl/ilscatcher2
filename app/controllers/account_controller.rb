@@ -168,7 +168,7 @@ class AccountController < ApplicationController
         :pickup_location => hold.css('td[5]').text.strip,
       }
     end
-    sorted_by_hold_id = holds.sort_by {|k| k["hold_id"]}.reverse!
+    sorted_by_hold_id = holds.sort_by {|k| k[:hold_id]}.reverse!
     return sorted_by_hold_id
   end
 
