@@ -25,7 +25,7 @@ class AccountController < ApplicationController
   end
 
   def check_token
-    request = create_agent('/eg/opac/myopac/main','', params[:token])
+    request = create_agent('/eg/opac/myopac/prefs','', params[:token])
     agent = request[0]
     page = request[1].parser
     token = agent.cookies.detect {|c| c.name == 'ses'}
@@ -187,6 +187,7 @@ class AccountController < ApplicationController
         :holds_ready => p.css('span#dash_pickup').try(:text).strip,
         :fine => p.css('span#dash_fines').try(:text).strip, 
         :token => token.try(:value),
+        :card => p.at('td:contains("Active Barcode")').try(:next_element).try(:text)
       }
     end
 
