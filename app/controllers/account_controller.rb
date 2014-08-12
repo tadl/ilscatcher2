@@ -9,6 +9,7 @@ class AccountController < ApplicationController
   	holds = page.parser.css('span#dash_holds').try(:text).strip
   	holds_ready = page.parser.css('span#dash_pickup').try(:text).strip
   	fines = page.parser.css('span#dash_fines').try(:text).strip
+    card = page.at('td:contains("Active Barcode")').try(:next_element).try(:text)
   	if token == nil
   		render :json =>{:message => 'login failed'}
   	else
@@ -17,7 +18,8 @@ class AccountController < ApplicationController
   			:holds => holds,
   			:holds_ready => holds_ready,
   			:fine => fines, 
-  			:token => token.value
+  			:token => token.value,
+        :card => card
   		}
   	end
   end
@@ -135,10 +137,7 @@ class AccountController < ApplicationController
   	end	
 
     render :json =>{:confirmation => confirmation, :errors => errors, :checkouts => checkouts }
-
   end
-
-
 
   def scrape_checkouts(page)
   	checkouts = page.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present?}.map do |checkout| 

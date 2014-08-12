@@ -39,7 +39,7 @@ before_filter :set_headers
     def login_action(username, password)
         # NOTE NEED to remove SSL VERIFY NONE in production
         agent = Mechanize.new{|a| a.ssl_version, a.verify_mode = 'SSLv3', OpenSSL::SSL::VERIFY_NONE}
-        login = agent.get(@opac_base_url + '/eg/opac/login?redirect_to=%2Feg%2Fopac%2Fmyopac%2Fmain')
+        login = agent.get(@opac_base_url + '/eg/opac/myopac/prefs')
         form = agent.page.forms[1]
         form.field_with(:name => "username").value = username
         form.field_with(:name => "password").value = password
