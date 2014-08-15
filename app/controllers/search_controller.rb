@@ -41,7 +41,7 @@ class SearchController < ApplicationController
 			media_type = ''
 		elsif params[:format]
 			media_type = '&fi%3Aformat=' + params[:format] 
-	 	end
+	 	else
 			media_type = ''
 		end
 		
