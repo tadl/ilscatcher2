@@ -37,9 +37,11 @@ class SearchController < ApplicationController
 		#TADL only stuff here just for video games
 		if params[:format] == 'video_games'
 			media_type = '&fi%3Aformat=mVG&facet=subject%7Cgenre%5Bgame%5D'
+		elsif params[:format] == 'all'
+			media_type = ''
 		elsif params[:format]
 			media_type = '&fi%3Aformat=' + params[:format] 
-		else
+	 	end
 			media_type = ''
 		end
 		
