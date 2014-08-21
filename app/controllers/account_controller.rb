@@ -148,6 +148,7 @@ class AccountController < ApplicationController
         	:checkout_id => checkout.search('input[@name="circ"]').try(:attr, "value").to_s,
         	:renew_attempts => checkout.search('td[@name="renewals"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
         	:due_date => checkout.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+        	:iso_due_date => Date.parse(checkout.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip)).to_s,
         	:barcode => checkout.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
         }
     end
