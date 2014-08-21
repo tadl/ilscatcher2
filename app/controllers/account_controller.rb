@@ -162,7 +162,7 @@ class AccountController < ApplicationController
         :record_id => clean_record(hold.css('td[2]').css('a').try(:attr, 'href').to_s),
         :hold_id => hold.search('input[@name="hold_id"]').try(:attr, "value").to_s,
         :hold_status => hold.css('td[8]').text.strip,
-        :queue_status => hold.css('/td[9]/div/div[1]').text.strip,
+        :queue_status => hold.css('/td[9]/div/div[1]').text.strip.gsub(/AvailableExpires/, 'Available, Expires'),
         :queue_state => hold.css('/td[9]/div/div[2]').text.strip,
         :pickup_location => hold.css('td[5]').text.strip,
       }
