@@ -48,7 +48,14 @@ class ItemsController < ApplicationController
   		}
   	end
 
-  	render :json =>{:item_details => item_details, :copies => copies }
+    copies_on_shelf = []
+    copies.each do |copy|
+      if copy[:status] == "Available"
+        copies_on_shelf.push(copy)
+      end 
+    end
+
+  	render :json =>{:item_details => item_details, :copies => copies, :copies_on_shelf => copies_on_shelf.compact.uniq }
 
   end
 
