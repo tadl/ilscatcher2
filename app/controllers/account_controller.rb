@@ -133,6 +133,7 @@ class AccountController < ApplicationController
   		{
   			:message => checkout.css('span.failure-text').text.strip,
   			:circ_id => checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s,
+        :title => circ_to_title(page, checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s),
   		}
   	end	
 
@@ -176,6 +177,11 @@ class AccountController < ApplicationController
   	record_id = record_id[0].gsub('/eg/opac/record/','') rescue nil
   	return record_id
   end
+
+  def circ_to_title(page, circ_id)
+    title = page.at('input[@value="18599655"]').try(:parent).try(:next).try(:next).css('a')[0].try(:text)
+    return title  
+  end  
 
   def user_basic_info(page, agent)
     token = agent.cookies.detect {|c| c.name == 'ses'}
