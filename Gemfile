@@ -32,3 +32,4 @@ gem 'newrelic_rpm'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'american_date'
