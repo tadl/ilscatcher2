@@ -131,9 +131,9 @@ class AccountController < ApplicationController
 
   	errors = page.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present? == false}.map do |checkout| 
   		{
-  			:message => checkout.css('span.failure-text').text.strip,
+  			:message => checkout.css('span.failure-text').text.strip.try(:gsub, /^Copy /, ''),
   			:circ_id => checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s,
-        :title => circ_to_title(page, checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s),
+        :title => circ_to_title(page, checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s).try(:gsub, /:.*/, '').try(:strip),
   		}
   	end	
 
