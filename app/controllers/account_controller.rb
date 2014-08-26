@@ -8,7 +8,7 @@ class AccountController < ApplicationController
   	checkouts = page.parser.css('span#dash_checked').try(:text).strip
   	holds = page.parser.css('span#dash_holds').try(:text).strip
   	holds_ready = page.parser.css('span#dash_pickup').try(:text).strip
-  	fines = page.parser.css('span#dash_fines').try(:text).strip
+  	fines = page.parser.css('span#dash_fines').try(:text).strip.gsub(/\$/, '')
     card = page.at('td:contains("Active Barcode")').try(:next_element).try(:text)
   	if token == nil
   		render :json =>{:message => 'login failed'}
@@ -131,9 +131,9 @@ class AccountController < ApplicationController
 
   	errors = page.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present? == false}.map do |checkout| 
   		{
-  			:message => checkout.css('span.failure-text').text.strip.try(:gsub, /^Copy /, ''),
+  			:message => checkout.css('span.failure-text').text.strip,
   			:circ_id => checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s,
-        :title => circ_to_title(page, checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s).try(:gsub, /:.*/, '').try(:strip),
+        :title => circ_to_title(page, checkout.previous.search('input[@name="circ"]').try(:attr, "value").to_s),
   		}
   	end	
 
@@ -164,7 +164,7 @@ class AccountController < ApplicationController
         :record_id => clean_record(hold.css('td[2]').css('a').try(:attr, 'href').to_s),
         :hold_id => hold.search('input[@name="hold_id"]').try(:attr, "value").to_s,
         :hold_status => hold.css('td[8]').text.strip,
-        :queue_status => hold.css('/td[9]/div/div[1]').text.strip,
+        :queue_status => hold.css('/td[9]/div/div[1]').text.strip.gsub(/AvailableExpires/, 'Available, Expires'),
         :queue_state => hold.css('/td[9]/div/div[2]').text.strip,
         :pickup_location => hold.css('td[5]').text.strip,
       }
@@ -193,7 +193,7 @@ class AccountController < ApplicationController
         :checkouts => p.css('span#dash_checked').try(:text).strip, 
         :holds => p.css('span#dash_holds').try(:text).strip,
         :holds_ready => p.css('span#dash_pickup').try(:text).strip,
-        :fine => p.css('span#dash_fines').try(:text).strip, 
+        :fine => p.css('span#dash_fines').try(:text).strip.gsub(/\$/, ''), 
         :token => token.try(:value),
         :card => p.at('td:contains("Active Barcode")').try(:next_element).try(:text)
       }
