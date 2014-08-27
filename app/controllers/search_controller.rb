@@ -56,15 +56,17 @@ class SearchController < ApplicationController
 				:availability => item.css(".result_count").map {|i| i.try(:text).try(:strip)},
 				:copies_availabile => item.css(".result_count").map {|i| clean_availablity_counts(i.try(:text))[0]},
 				:copies_total => item.css(".result_count").map {|i| clean_availablity_counts(i.try(:text))[1]},
-				:online => item.search('a').text_includes("Connect to this resource online").first.try(:attr, "href"),
 				:record_id => item.at_css(".record_title").attr('name').sub!(/record_/, ""),
+				:e_resource => check_e_resource(item),
 				#hack for dev below
 				:image => 'http://catalog.tadl.org' + item.at_css(".result_table_pic").try(:attr, "src"),
 				:abstract => item.at_css('[@name="bib_summary"]').try(:text).try(:strip).try(:squeeze, " "),
 				:contents => item.at_css('[@name="bib_contents"]').try(:text).try(:strip).try(:squeeze, " "),
-				:record_year => item.at_css(".record_year").try(:text),
 				#hack for dev below
 				:format_icon => 'http://catalog.tadl.org' + item.at_css(".result_table_title_cell img").try(:attr, "src"),
+				:format_type => scrape_format_year(item)[0],
+				:record_year => scrape_format_year(item)[1],
+				:call_number => item.at_css('[@name="bib_cn_list"]').css('td[2]').try(:text).try(:strip),
 			}
 		end
 
@@ -101,6 +103,21 @@ class SearchController < ApplicationController
 		return total_availabe, total_copies, availability_scope
 	end
 
-	
+	def check_e_resource(item)
+		if item.at_css('span.result_place_hold')
+			e_resource = false 
+		else
+			e_resource = true 
+		end
+		return e_resource
+	end
+
+	def scrape_format_year(item)
+		format_year = item.css('div#bib_format').try(:text).try(:split, '(')
+		format = format_year[0].strip rescue nil
+		year = format_year[1].strip.gsub(')', '')	rescue nil
+		result = [format, year]
+		return result		
+	end
 
 end
