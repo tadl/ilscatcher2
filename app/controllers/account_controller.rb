@@ -170,6 +170,12 @@ class AccountController < ApplicationController
       }
     end
     sorted_by_hold_id = holds.sort_by {|k| k[:hold_id]}.reverse!
+    sorted_by_hold_id.each do |h|
+      if h[:queue_status] =~ /Available/
+        sorted_by_hold_id.delete(h)
+        sorted_by_hold_id.unshift(h) 
+      end
+    end
     return sorted_by_hold_id
   end
 
