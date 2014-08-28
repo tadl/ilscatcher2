@@ -66,7 +66,7 @@ class SearchController < ApplicationController
 				:format_icon => 'http://catalog.tadl.org' + item.at_css(".result_table_title_cell img").try(:attr, "src"),
 				:format_type => scrape_format_year(item)[0],
 				:record_year => scrape_format_year(item)[1],
-				:call_number => item.at_css('[@name="bib_cn_list"]').css('td[2]').try(:text).try(:strip),
+				:call_number => item.at_css('[@name="bib_cn_list"]').try(:css, 'td[2]').try(:text).try(:strip),
 			}
 		end
 
