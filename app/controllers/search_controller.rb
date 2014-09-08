@@ -57,7 +57,7 @@ class SearchController < ApplicationController
 				:copies_availabile => item.css(".result_count").map {|i| clean_availablity_counts(i.try(:text))[0]},
 				:copies_total => item.css(".result_count").map {|i| clean_availablity_counts(i.try(:text))[1]},
 				:record_id => item.at_css(".record_title").attr('name').sub!(/record_/, ""),
-				:e_resource => check_e_resource(item),
+                :eresource => item.at_css('[@name="bib_uri_list"]').try(:css, 'td').try(:css, 'a').try(:attr, 'href').try(:text).try(:strip),
 				#hack for dev below
 				:image => 'http://catalog.tadl.org' + item.at_css(".result_table_pic").try(:attr, "src"),
 				:abstract => item.at_css('[@name="bib_summary"]').try(:text).try(:strip).try(:squeeze, " "),
