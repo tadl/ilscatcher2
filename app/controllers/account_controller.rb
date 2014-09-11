@@ -37,6 +37,21 @@ class AccountController < ApplicationController
     end
   end
 
+  def password_reset
+    user = params["username"]
+    request = create_agent('/eg/opac/password_reset','','')
+    agent = request[0]
+    page = request[1]
+    form = page.forms[1]
+    if (user =~ /^TADL\d{7,8}$|^90\d{5}$|^91111\d{9}$|^[a-zA-Z]\d{10}/ )
+      form.field_with(:name => "barcode").value = user
+    else
+      form.field_with(:name => "username").value = user
+    end
+    agent.submit(form)
+    render :json =>{:message => 'complete'}
+  end
+
   def checkouts
   	if params[:token] == nil
   		render :json =>{:message => "Active token required"}

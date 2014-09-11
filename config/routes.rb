@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'account/renew_items'
   get 'account/checkouts'
   get 'account/check_token'
+  get 'account/password_reset'
   get 'account/holds'
   get 'items/details'
   get 'search/basic' 
