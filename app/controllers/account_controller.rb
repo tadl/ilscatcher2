@@ -24,6 +24,27 @@ class AccountController < ApplicationController
   	end
   end
 
+  def login_refresh
+    username = params[:username]
+    pass_md5 = params[:pass_md5]
+
+    result = login_refresh_action(username, pass_md5)
+
+    render :json => {
+        :token => result
+    }
+  end
+
+  def logout
+    token = params[:token]
+
+    result = logout_action(token)
+
+    render :json => {
+        :result => result
+    }
+  end
+
   def check_token
     request = create_agent('/eg/opac/myopac/prefs','', params[:token])
     agent = request[0]
