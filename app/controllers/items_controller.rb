@@ -26,7 +26,7 @@ class ItemsController < ApplicationController
 			:copies_total => clean_totals_holds(detail.at('h2:contains("Current holds")').try(:next_element).try(:text))[1],
 			:holds => clean_totals_holds(detail.at('h2:contains("Current holds")').try(:next_element).try(:text))[0],
 			:eresource => detail.at('p.rdetail_uri').try(:at, 'a').try(:attr, "href"),
-			:image => detail.at_css('#rdetail_image').try(:attr, "src").try(:gsub, /^\//, "http://catalog.tadl.org/").try(:gsub, /medium/, "large"),
+			:image => detail.at_css('#rdetail_image').try(:attr, "src").try(:gsub, /^\//, "https://catalog.tadl.org/").try(:gsub, /medium/, "large"),
 			:format => detail.at('div#rdetail_format_label').text.strip,
 			:format_icon => detail.at('div#rdetail_format_label').at('img').try(:attr, "src"),
 			:record_year => detail.search('span[@property="datePublished"]').try(:text),
