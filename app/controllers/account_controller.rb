@@ -107,6 +107,13 @@ class AccountController < ApplicationController
 
   	request = create_agent('/eg/opac/myopac/holds?limit=41', action, params[:token])
   	page = request[1].parser
+    page_title = page.title
+
+  	if page_title == 'Catalog - Account Login'
+  		render :json =>{:message => 'Invalid token'}
+  		return
+  	end
+
   	holds = scrape_holds(page)
   	render :json =>{:holds => holds, :count => holds.size}
   end
