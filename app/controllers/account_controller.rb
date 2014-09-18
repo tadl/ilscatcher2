@@ -30,9 +30,8 @@ class AccountController < ApplicationController
 
     result = login_refresh_action(username, pass_md5)
 
-    render :json => {
-        :token => result
-    }
+    params[:token] = result
+    check_token
   end
 
   def logout
