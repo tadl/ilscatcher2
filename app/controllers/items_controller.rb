@@ -52,7 +52,11 @@ class ItemsController < ApplicationController
     copies.each do |copy|
       if copy[:status] == "Available"
         copies_on_shelf.push(copy)
-      end 
+      end
+      if copy[:status] == "Reshelving"
+        copy[:shelving_location] = copy[:shelving_location] + " (Reshelving)"
+        copies_on_shelf.push(copy)
+      end  
     end
 
   	render :json =>{:item_details => item_details, :copies => copies, :copies_on_shelf => copies_on_shelf.compact.uniq }
