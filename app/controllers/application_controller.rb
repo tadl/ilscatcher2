@@ -77,9 +77,14 @@ before_filter :set_headers
 
         auth_param = {
             "type" => "opac",
-            "username" => username,
             "password" => password
         }
+
+        if ( username =~ /^TADL\d{7,8}$|^90\d{5}$|^91111\d{9}$|^[a-zA-Z]\d{10}/ )
+            auth_param["barcode"] = username
+        else
+            auth_param["username"] = username
+        end
 
         request_complete = Net::HTTP::Post.new(uri.request_uri)
         request_complete.set_form_data({
