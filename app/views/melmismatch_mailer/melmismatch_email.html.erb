@@ -1,0 +1,13 @@
+Howdy,
+<p>
+The following E-Resource links did not match what was found on MEL's database page. They might still work for the time being, but should be updated to what is on the <a href="http://mel.org/databases">MEL Database Page</a>.
+</p>
+<% @bad_links.each do |l| %>
+<a href='https://www.tadl.org/node/<%= l[:nid] %>'><%= raw l[:title] %></a> 
+<br>
+<% end %>
+<p>
+Thanks!
+<br>
+TADL Bot
+</p>

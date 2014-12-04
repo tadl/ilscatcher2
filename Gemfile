@@ -18,6 +18,10 @@ gem 'dalli'
 
 gem 'newrelic_rpm'
 
+gem 'dotenv-rails', :groups => [:development, :test]
+
+gem 'colorize'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

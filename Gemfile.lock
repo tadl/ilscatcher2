@@ -30,9 +30,13 @@ GEM
     american_date (1.1.0)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    colorize (0.7.3)
     dalli (2.7.0)
     domain_name (0.5.19)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     hike (1.2.3)
     http-cookie (1.0.2)
@@ -123,7 +127,9 @@ PLATFORMS
 
 DEPENDENCIES
   american_date
+  colorize
   dalli
+  dotenv-rails
   mechanize
   memcachier
   newrelic_rpm
