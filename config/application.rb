@@ -9,5 +9,6 @@ Bundler.require(*Rails.groups)
 module Ilscatcher2
   class Application < Rails::Application
     config.filter_parameters += [:password]
+    config.filter_parameters += [:pass_md5]
   end
 end
