@@ -128,6 +128,10 @@ class AccountController < ApplicationController
   		return
   	end
 
+    if params[:force] == 'true'
+      force_hold = true
+    end
+
 
   	request = create_agent('/eg/opac/place_hold?hold_type=T' + record_ids,'', params[:token])
   	agent = request[0]
@@ -148,6 +152,18 @@ class AccountController < ApplicationController
   		}
   	end
 
+    if confirmation_messages[0][:message] == "Placing this hold could result in longer wait times." 
+      if force_hold == true
+        hold_form = agent.page.forms[1]
+        submitt_holds = agent.submit(hold_form)
+        submitt_holds.parser.css('//table#hold-items-list//tr').each do |m|
+          confirmation_messages[0][:record_id] = m.at_css("td[1]//input").try(:attr, "value")
+          confirmation_messages[0][:message] = m.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip).try(:split, ". ").try(:last)
+        end
+      else
+        confirmation_messages[0][:need_to_force] = true
+      end
+    end
   	render :json =>{:confirmation_messages => confirmation_messages}
   end
 
