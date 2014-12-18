@@ -1,19 +1,20 @@
 Rails.application.routes.draw do
 
-  get 'account/login'
-  get 'account/login_refresh'
-  get 'account/logout'
-  get 'account/place_holds'
-  get 'account/renew_items'
-  get 'account/checkouts'
-  get 'account/check_token'
-  get 'account/password_reset'
-  get 'account/holds'
-  get 'items/details'
-  get 'search/basic' 
-  get 'web/locations'
-  get 'web/events'
-  get 'web/news'
+  match "account/login" => "account#login", via: [:get, :post]
+  match "account/login_refresh" => "account#login_refresh", via: [:get, :post]
+  match "account/logout" => "account#logout", via: [:get, :post]
+  match "account/place_holds" => "account#place_holds", via: [:get, :post]
+  match "account/checkouts" => "account#checkouts", via: [:get, :post]
+  match "account/renew_items" => "account#renew_items", via: [:get, :post]
+  match "account/check_token" => "account#check_token", via: [:get, :post]
+  match "account/password_reset" => "account#password_reset", via: [:get, :post]
+  match "account/holds" => "account#holds", via: [:get, :post]
+  match "items/details" => "items#details", via: [:get, :post]
+  match "search/basic" => "search#basic", via: [:get, :post]
+  match "web/locations" => "web#locations", via: [:get, :post]
+  match "web/events" => "web#events", via: [:get, :post]
+  match "web/news" => "web#news", via: [:get, :post]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

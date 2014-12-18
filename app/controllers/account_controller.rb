@@ -132,7 +132,6 @@ class AccountController < ApplicationController
       force_hold = true
     end
 
-
   	request = create_agent('/eg/opac/place_hold?hold_type=T' + record_ids,'', params[:token])
   	agent = request[0]
   	page = request[1].parser
@@ -151,17 +150,20 @@ class AccountController < ApplicationController
   			:message => m.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip).try(:split, ". ").try(:last),
   		}
   	end
-
-    if confirmation_messages[0][:message] == "Placing this hold could result in longer wait times." 
-      if force_hold == true
-        hold_form = agent.page.forms[1]
-        submitt_holds = agent.submit(hold_form)
-        submitt_holds.parser.css('//table#hold-items-list//tr').each do |m|
-          confirmation_messages[0][:record_id] = m.at_css("td[1]//input").try(:attr, "value")
-          confirmation_messages[0][:message] = m.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip).try(:split, ". ").try(:last)
+    i = 0
+    confirmation_messages.each do |c|
+      if c[:message] == "Placing this hold could result in longer wait times." 
+        if force_hold == true && i == 0
+          hold_form = agent.page.forms[1]
+          submitt_holds = agent.submit(hold_form)
+          submitt_holds.parser.css('//table#hold-items-list//tr').each do |m|
+            c[:record_id] = m.at_css("td[1]//input").try(:attr, "value")
+            c[:message] = m.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip).try(:split, ". ").try(:last)
+          end
+          i = i+1
+        else
+          c[:need_to_force] = true
         end
-      else
-        confirmation_messages[0][:need_to_force] = true
       end
     end
   	render :json =>{:confirmation_messages => confirmation_messages}
