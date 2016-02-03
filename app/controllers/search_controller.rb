@@ -67,7 +67,11 @@ class SearchController < ApplicationController
 			item["author"]= r["author"]
 			item["availability"]= [item_holdings[1]]
 			item["record_id"]= r["id"]
-			item["eresource"]= r["links"][0]
+			if r["electronic"] == true
+				item["eresource"]= r["links"][0]
+			else
+				item["eresouce"] = nil 
+			end
 			item["image"]= 'https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/' + r["id"].to_s
 			item["abstract"]= r["abstract"]
 			item["contents"]= r["contents"]
