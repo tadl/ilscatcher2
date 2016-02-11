@@ -87,8 +87,7 @@ class SearchController < ApplicationController
 		else
 			more_results = 'false'
 		end
-		page_number = (page_number.to_i + 1).to_s
-		render :json =>{:results => results, :page => page_number, :more_results => more_results}
+		render :json =>{:results => results, :page => page_number.to_s, :more_results => more_results}
 	end
 
 	def get_icon(record_type)
