@@ -75,7 +75,7 @@ class SearchController < ApplicationController
 			item["image"]= 'https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/' + r["id"].to_s
 			item["abstract"]= r["abstract"]
 			item["contents"]= r["contents"]
-			item["format_icon"]= 'http://catalog.tadl.org/images/format_icons/icon_format/' + icon
+			item["format_icon"]= 'https://catalog.tadl.org/images/format_icons/icon_format/' + icon
 			item["format_type"]= r['type_of_resource']
 			item["record_year"]= r['record_year']
 			item["call_number"]= item_holdings[0]
