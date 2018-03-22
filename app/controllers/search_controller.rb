@@ -53,7 +53,7 @@ class SearchController < ApplicationController
 			media_type = ''
 		end
 		
-		url = 'https://elastic-evergreen-tadl.apps.tadl.org/main/index.json?' + query + page_param + location + availability + qtype + media_type + sort
+		url = 'https://tadl.elastic.tadl.org/main/index.json?' + query + page_param + location + availability + qtype + media_type + sort
 
 		request = JSON.parse(open(url).read)
 
